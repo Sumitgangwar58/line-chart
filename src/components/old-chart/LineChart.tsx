@@ -116,7 +116,6 @@ const LineChart = ({ labels, dataSet }: dataSetLineChart) => {
     origin: number
   ) => {
     const blockDistance = totalLength / totalPoints;
-    console.log(blockDistance);
     return origin - currPoint * blockDistance;
   };
 
@@ -158,8 +157,6 @@ const LineChart = ({ labels, dataSet }: dataSetLineChart) => {
     for (let i = xPadding; i < canvas.width - xPadding; i++) {
       curvePoints.push({ x: i, y: smoothLine(i) });
     }
-    console.log(points);
-    console.log(curvePoints, canvas.width - 2 * xPadding);
 
     ctx.moveTo(curvePoints[0].x, curvePoints[0].y);
     ctx.lineWidth = 2;
@@ -182,7 +179,27 @@ const LineChart = ({ labels, dataSet }: dataSetLineChart) => {
     ctx.beginPath();
     ctx.moveTo(xPadding, yPadding);
     ctx.lineTo(origin.x, origin.y);
-    ctx.lineTo(canvas.width - xPadding, origin.y);
+
+    const yLine = cubicSplineInterpolation(
+      [origin, { x: canvas.width - xPadding, y: origin.y }],
+      origin.x,
+      origin.y - 1,
+      canvas.width - xPadding,
+      origin.y + 1
+    );
+
+    let yLinePoints: { x: number; y: number }[] = [];
+
+    for (let i = origin.x; i < canvas.width - xPadding; i++) {
+      yLinePoints.push({
+        x: yLine(i),
+        y: origin.y,
+      });
+    }
+
+    console.log(yLinePoints);
+
+    // ctx.lineTo(canvas.width - xPadding, origin.y);
 
     for (let i = 0; i < labels.length; i++) {
       const currPoint = getXPoint(canvas, labels.length, i, origin);
