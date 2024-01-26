@@ -1,0 +1,8 @@
+.inte-LineChart {
+  /* border: 1px solid #ccc; */
+
+  & .inte-canvas {
+    border: 1px solid red;
+    display: block;
+  }
+}

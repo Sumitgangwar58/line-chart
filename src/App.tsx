@@ -1,94 +1,43 @@
 import React, { useEffect, useRef } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import LineChart, { dataSetLineChart } from "./components/old-chart/LineChart";
 
-const lineColor = "red";
-const lineWidth = 1;
-
-const xPadding = 50;
-const yPadding = 50;
-
-const canvasWidth = 800;
-const canvasHeight = 500;
-
-const cutSize = 5;
-
-const getLength = (
-  length: number,
-  currPointNumber: number,
-  totalPoints: number,
-  padding: number
-) => {
-  const blockWidth = (length - 2 * padding) / totalPoints;
-
-  const currentDist = currPointNumber * blockWidth;
-
-  console.log(currentDist - blockWidth / 2, "length");
-
-  return currentDist;
-};
-
-const labels = Array(10)
-  .fill(0)
-  .map((i, index) => index.toString());
-
-function App() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const ctx = canvasRef.current?.getContext("2d");
-    if (!ctx) return;
-
-    drawScale(ctx);
-  }, []);
-
-  const drawScale = (ctx: CanvasRenderingContext2D) => {
-    const origin = {
-      x: xPadding,
-      y: canvasHeight - yPadding,
-    };
-    ctx.beginPath();
-
-    ctx.strokeStyle = lineColor;
-    ctx.lineWidth = lineWidth;
-
-    //making horizontal line
-    ctx.moveTo(origin.x, origin.y);
-    ctx.lineTo(xPadding, yPadding);
-
-    //making vertical line
-    ctx.moveTo(origin.x, origin.y);
-    ctx.lineTo(canvasWidth - xPadding, origin.y);
-
-    // making points and setting labels in horizontal line
-    ctx.moveTo(origin.x, origin.y);
-    for (let i = 0; i < labels.length - 1; i++) {
-      const labelPoint = (p: { x: number; y: number }) => {
-        const offset = 10;
-        ctx.fillText(labels[i], p.x + offset, p.y + offset);
-      };
-      const currPoint = {
-        x: origin.x + getLength(canvasWidth, i, labels.length, xPadding),
-        y: origin.y,
-      };
-
-      ctx.moveTo(currPoint.x, currPoint.y);
-      ctx.lineTo(currPoint.x, currPoint.y + cutSize);
-      labelPoint(currPoint);
-    }
-
-    ctx.stroke();
+const App = () => {
+  const demoDataSetLineChart: dataSetLineChart = {
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    dataSet: [
+      {
+        color: "#a83232",
+        // points: Array(12).fill(0).map(i => Math.floor(Math.random()*100)),
+        points: [10, 20, 30, 20, 10, 60, 70, 80, 90, 9, 72, 93],
+        // points:Array(12).fill(0).map(i => Math.ceil(Math.floor(Math.random()*100))),
+      },
+      // {
+      //   color: "#40a832",
+      //   points:Array(12).fill(0).map(i => Math.ceil(Math.random()*100)),
+      // },
+      // {
+      //   color: "#a832a2",
+      //   points: Array(12).fill(0).map(i => Math.ceil(Math.random()*100)),
+      // },
+    ],
   };
 
-  return (
-    <div className="App">
-      <canvas
-        ref={canvasRef}
-        width={canvasWidth}
-        height={canvasHeight}
-      ></canvas>
-    </div>
-  );
-}
+  return <LineChart {...demoDataSetLineChart} />;
+};
 
 export default App;
