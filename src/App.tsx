@@ -20,6 +20,7 @@ const getLength = (
   padding: number
 ) => {
   const blockWidth = (length - 2 * padding) / totalPoints;
+
   const currentDist = currPointNumber * blockWidth;
 
   console.log(currentDist - blockWidth / 2, "length");
