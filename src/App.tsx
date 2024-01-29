@@ -3,6 +3,9 @@ import logo from "./logo.svg";
 import "./App.css";
 import LineChart, { dataSetLineChart } from "./components/old-chart/LineChart";
 import SvgLineChart from "./components/SvgLineChart/SvgLineChart";
+import LineChartSvg from "./components/SvgLineChart/SvgLineChart";
+
+const xBlockCount = 10;
 
 const App = () => {
   const demoDataSetLineChart: dataSetLineChart = {
@@ -17,19 +20,19 @@ const App = () => {
       "Aug",
       "Sep",
       "Oct",
-      // "Nov",
-      // "Dec",
+      "Nov",
+      "Dec",
     ],
     dataSet: [
       {
-        color: "blue",
+        color: "#a83232",
         // points: Array(12).fill(0).map(i => Math.floor(Math.random()*100)),
-        points: [0, 20, 40, 60, 80, 60, 40, 20, 0, 10],
+        points: [5, 20, 35, 20, 10, 65, 70, 80, 90, 0, 92, 93],
         // points:Array(12).fill(0).map(i => Math.ceil(Math.floor(Math.random()*100))),
       },
       // {
       //   color: "#40a832",
-      //   points:Array(12).fill(0).map(i => Math.ceil(Math.random()*100)),
+      //   points:Array(12).fill(0).map(i => Math.ceil(Math.random()*90)),
       // },
       // {
       //   color: "#a832a2",
@@ -38,11 +41,26 @@ const App = () => {
     ],
   };
 
-  // return <LineChart {...demoDataSetLineChart} />;
-
   return (
     <div className="App">
-      <SvgLineChart {...demoDataSetLineChart} />
+      <LineChartSvg
+        width={800}
+        height={500}
+        lineType={"curved"}
+        dataSet={demoDataSetLineChart.dataSet}
+        labels={{
+          x: demoDataSetLineChart.labels,
+          y: 10,
+        }}
+        graphScale={{
+          color: "#9B9EA5",
+          lineWidth: 2,
+          cutGap: 12,
+          cutSize: 9,
+          cutPosition: "center",
+          textColor: "#1C2433",
+        }}
+      />
     </div>
   );
 };
